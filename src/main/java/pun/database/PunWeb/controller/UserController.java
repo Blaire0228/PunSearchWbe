@@ -79,8 +79,16 @@ public class UserController {
                     .body("帳號或密碼錯誤");
         }
 
-        // 3. 最簡單版：只回文字，之後要加 JWT 或 user 資料再改
-        return ResponseEntity.ok("登入成功");
+        // 3. 回傳最簡單的 JSON（只給 memberId）
+        User user = userService
+                .findByUsername(req.getUsername())
+                .orElse(null);
+
+
+        return ResponseEntity.ok(
+                java.util.Map.of("memberId", user.getMemberId())
+        );
+
     }
 
     // ========= 測試用：取得所有使用者 =========

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../App';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,15 +32,16 @@ const LoginPage = () => {
         }),
       });
 
-      const text = await res.text();
-
-      if (res.ok) {
-        alert(text || '登入成功！');
-        // 這裡你可以改成首頁或其他頁面
-        navigate('/');
-      } else {
+      if (!res.ok) {
+        const text = await res.text();
         alert(text || '登入失敗，請確認帳號與密碼');
+        return;
       }
+
+      const data = await res.json();
+      // 假設後端回傳 { memberId, username }
+      login(data.memberId);
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert('無法連線到伺服器，請確認後端有啟動');

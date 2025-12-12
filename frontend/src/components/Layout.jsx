@@ -1,18 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import squirrelLogo from '../assets/squirrelLogo.png';
 import userLogo from '../assets/userLogo.png';
+import { AuthContext } from '../App'; // 2. 引入 AuthContext
 
 const Layout = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+  const { isLoggedIn, logout } = useContext(AuthContext); // 3. 獲取狀態和函式
 
   // 色票定義
   const colors = {
     headerGreen: 'bg-[#8AB65D]',
     bgGray: 'bg-[#F5F5F5]',
     panelBrown: 'bg-[#D09E86]',
+  };
+
+  // [新增] 處理導航到需要登入的頁面 (例如 /mypun 或 /favorites)
+  const handleAuthNavigation = (path) => {
+    setShowMenu(false); // 關閉選單
+    if (isLoggedIn) {
+      navigate(path);
+    } else {
+      // 未登入則導向登入頁
+      navigate('/login');
+    }
+  };
+
+  // [新增] 處理登出
+  const handleLogout = () => {
+    setShowMenu(false);
+    logout(); // 清除登入狀態
+    navigate('/login');
   };
 
   return (
@@ -48,12 +68,40 @@ const Layout = ({ children }) => {
 
           {/* 右側下拉選單 */}
           {showMenu && (
-            <div className={`absolute top-12 right-0 ${colors.panelBrown} p-3 rounded-lg shadow-xl flex flex-col gap-2 z-50 w-32 border-2 border-white/20`}>
-              <MenuButton text="收藏清單" onClick={() => navigate('/favorites')} />
-              <MenuButton text="重設密碼" onClick={() => navigate('/reset-password')} />
-              <MenuButton text="登出" onClick={() => navigate('/login')} />
+            <div
+              className={`absolute top-12 right-0 ${colors.panelBrown} p-3 rounded-lg shadow-xl flex flex-col gap-2 z-50 w-32 border-2 border-white/20`}
+            >
+              {isLoggedIn ? (
+                <>
+                  <MenuButton
+                    text="收藏清單"
+                    onClick={() => navigate('/favorites')}
+                  />
+
+                  <MenuButton
+                    text="重設密碼"
+                    onClick={() => navigate('/reset-password')}
+                  />
+
+                  <MenuButton
+                    text="我的諧音梗"
+                    onClick={() => handleAuthNavigation('/mypun')}
+                  />
+
+                  <MenuButton
+                    text="登出"
+                    onClick={handleLogout}
+                  />
+                </>
+              ) : (
+                <MenuButton
+                  text="登入"
+                  onClick={() => navigate('/login')}
+                />
+              )}
             </div>
           )}
+
         </div>
       </header>
 

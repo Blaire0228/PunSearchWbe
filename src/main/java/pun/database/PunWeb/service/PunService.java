@@ -40,6 +40,16 @@ public class PunService {
         punRepository.deleteById(id);
     }
 
+    // [新增功能] 根據創建者 ID 獲取諧音梗列表
+    public List<Pun> getPunsByCreatedBy(Integer createdBy) {
+        return punRepository.findByCreatedBy(createdBy);
+    }
+
+    // [新增功能] 獲取所有不重複的標籤
+    public List<String> getAllDistinctTags() {
+        return punRepository.findDistinctTags();
+    }
+
     public List<Pun> search(List<Integer> tagIds, String keyword) {
 
         boolean noTags = (tagIds == null || tagIds.isEmpty());
