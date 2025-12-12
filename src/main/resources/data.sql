@@ -1,6 +1,7 @@
 -- 1. 新增使用者
-INSERT INTO users(lastname, firstname, phone, birthdate, email, password, role)
-VALUES ('Admin', 'Admin', NULL, '2000-01-01', 'yuki20040228@gmail.com', 'admin123', 'admin');
+INSERT INTO users(username, password)
+VALUES ('admin', 'admin123');
+
 
 -- 2. 新增標籤 (定義 ID 以便後續對應)
 -- ID: 1=冷笑話, 2=地獄, 3=商業, 4=知識型, 5=實用(日常)
