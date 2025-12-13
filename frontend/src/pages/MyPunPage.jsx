@@ -179,7 +179,7 @@ const MyPunPage = () => {
                             <option value="" disabled>請選擇標籤 (必選)</option> {/* [修改 3/3]: 預設選項變為 disabled 佔位符 */}
                             {availableTags.map(tag => (
                                 <option key={tag.tagId} value={tag.tagId}>
-                                    {tag.name}
+                                    {tag.tagName}
                                 </option>
                             ))}
                         </select>
@@ -225,7 +225,7 @@ const MyPunPage = () => {
                                 <p className="text-sm text-gray-500 mt-1">
                                     標籤：
                                     {pun.tags && pun.tags.length > 0
-                                        ? pun.tags.map(tag => tag.name).join('、')
+                                        ? pun.tags.map(tag => tag.tagName).join('、')
                                         : ' 無標籤'}
                                     <span className="ml-3 text-xs text-gray-400">ID: {pun.punId}</span>
                                 </p>

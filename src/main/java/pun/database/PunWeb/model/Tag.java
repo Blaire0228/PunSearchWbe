@@ -16,7 +16,7 @@ public class Tag {
     private Integer tagId;
 
     @Column(unique = true)
-    private String name;
+    private String tagName;
 
     // 多對多反向關聯，不會產生新表
     @ManyToMany(mappedBy = "tags")
@@ -25,8 +25,8 @@ public class Tag {
 
     public Tag() {}
 
-    public Tag(String name) {
-        this.name = name;
+    public Tag(String tagName) {
+        this.tagName = tagName;
     }
 
     // Getter / Setter
@@ -38,12 +38,12 @@ public class Tag {
         this.tagId = tagId;
     }
 
-    public String getName() {
-        return name;
+    public String getTagName() {
+        return tagName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
     }
 
     public List<Pun> getPuns() {

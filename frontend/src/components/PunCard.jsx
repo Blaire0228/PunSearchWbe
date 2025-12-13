@@ -34,10 +34,10 @@ const PunCard = ({ title, tags, status, isStarred, onClick }) => {
             {Array.isArray(tags) && tags.length > 0 ? (
               tags.map((tag) => (
                 <span
-                  key={tag.id}
+                  key={tag.tagId}
                   className="px-2 py-1 bg-[#E8F5E9] text-[#2E7D32] text-xs font-medium rounded-full"
                 >
-                  #{tag.name}
+                  #{tag.tagName}
                 </span>
               ))
             ) : (

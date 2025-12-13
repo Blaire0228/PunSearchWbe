@@ -5,5 +5,5 @@ import pun.database.PunWeb.model.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Integer>{
 
-    Tag findByName(String name);
+    Tag findByTagName(String tagName);
 }

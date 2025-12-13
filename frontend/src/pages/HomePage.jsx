@@ -128,7 +128,7 @@ const HomePage = () => {
                     checked={selectedTagIds.includes(tag.tagId)}
                     onChange={() => handleTagChange(tag.tagId)}
                   />
-                  {tag.name}
+                  {tag.tagName}
                 </label>
               ))}
             </div>
