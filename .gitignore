@@ -49,3 +49,8 @@ Thumbs.db
 /frontend/build/
 /frontend/dist/
 .DS_Store
+
+# H2 database files
+*.mv
+*.trace.db
+*.db
