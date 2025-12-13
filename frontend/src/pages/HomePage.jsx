@@ -162,6 +162,7 @@ const HomePage = () => {
                   id={pun.id}
                   title={pun.content}
                   tags={pun.tags} // 現在後端會正確回傳 List<Tag>
+                  status={pun.status}
                   onClick={() => navigate(`/detail/${pun.id}`)}
                 />
               ))

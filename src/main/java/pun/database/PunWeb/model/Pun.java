@@ -3,7 +3,9 @@ package pun.database.PunWeb.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Pun {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pun_id")
     private Integer id;
 
     private String content;
@@ -31,8 +34,8 @@ public class Pun {
     private List<Tag> tags = new ArrayList<>();
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "create_date", nullable = false, updatable = false)
+    private LocalDate createDate;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -64,12 +67,24 @@ public class Pun {
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDate getCreatedDate() { return createDate; }
+    public void setCreatedDate(LocalDate createDate) { this.createDate = this.createDate; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    @Transient
+    public String getStatus() {
+
+        long days = createDate.until(LocalDate.now(), ChronoUnit.DAYS);
+
+        if (days <= 10) return "最新諧音梗";
+        if (days <= 30) return "新諧音梗";
+        if (days <= 90) return "近期諧音梗";
+        if (days <= 365) return "中期諧音梗";
+        return "舊諧音梗";
+    }
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pun.database.PunWeb.model.Pun;
 import pun.database.PunWeb.service.PunService;
-
 import java.util.List;
 
 @RestController
@@ -59,4 +58,5 @@ public class PunController {
     public void deletePun(@PathVariable Integer id) {
         punService.deletePun(id);
     }
+
 }
