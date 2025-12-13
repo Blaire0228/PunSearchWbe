@@ -66,20 +66,32 @@ const DetailPage = () => {
 
             {/* 標籤區 */}
             <div className="flex flex-wrap gap-3">
-              {Array.isArray(pun.tags) && pun.tags.length > 0 ? (
-                pun.tags.map(tag => (
+                {/* 左邊：tags */}
+                <div className="flex flex-wrap gap-3">
+                  {Array.isArray(pun.tags) && pun.tags.length > 0 ? (
+                    pun.tags.map(tag => (
+                      <span
+                        key={tag.tagId}
+                        className="px-2 py-1 bg-[#E8F5E9] text-[#2E7D32] text-xs font-medium rounded-full"
+                      >
+                        #{tag.name}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="bg-white px-4 py-1.5 rounded-md shadow-sm text-gray-400 text-sm font-medium border border-gray-100">
+                      無標籤
+                    </span>
+                  )}
+                </div>
+
+                {/* 右邊：status */}
+                {pun.status && (
                   <span
-                    key={tag.tagId}
-                    className="bg-white px-4 py-1.5 rounded-md shadow-sm text-gray-500 text-sm font-medium border border-gray-100"
+                    className={`text-xs px-3 py-1 rounded-full font-bold whitespace-nowrap ${getStatusStyle(pun.status)}`}
                   >
-                    #{tag.name}
+                    {pun.status}
                   </span>
-                ))
-              ) : (
-                <span className="bg-white px-4 py-1.5 rounded-md shadow-sm text-gray-400 text-sm font-medium border border-gray-100">
-                  無標籤
-                </span>
-              )}
+                )}
             </div>
 
             {/* 內文 */}
@@ -104,5 +116,23 @@ const DetailPage = () => {
     </Layout>
   );
 };
+
+const getStatusStyle = (status) => {
+  switch (status) {
+    case '最新諧音梗':
+      return 'bg-green-100 text-green-700';
+    case '新諧音梗':
+      return 'bg-emerald-100 text-emerald-700';
+    case '近期諧音梗':
+      return 'bg-blue-100 text-blue-700';
+    case '中期諧音梗':
+      return 'bg-yellow-100 text-yellow-700';
+    case '舊諧音梗':
+      return 'bg-gray-200 text-gray-600';
+    default:
+      return 'bg-gray-100 text-gray-500';
+  }
+};
+
 
 export default DetailPage;
