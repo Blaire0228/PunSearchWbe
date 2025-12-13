@@ -5,10 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import pun.database.PunWeb.model.User;
+import pun.database.PunWeb.model.Member;
 import pun.database.PunWeb.model.RegisterRequest;
 import pun.database.PunWeb.model.LoginRequest;
-import pun.database.PunWeb.service.UserService;
+import pun.database.PunWeb.service.MemberService;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     // ========= 註冊 API =========
     @PostMapping("/register")
@@ -41,18 +41,18 @@ public class UserController {
         }
 
         // 3. 檢查帳號是否已存在
-        if (userService.existsByUsername(req.getUsername())) {
+        if (memberService.existsByUsername(req.getUsername())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body("此帳號已被使用");
         }
 
         // 4. 建立 User 實體並存入資料庫
-        User user = new User();
-        user.setUsername(req.getUsername());
-        user.setPassword(req.getPassword()); // 最簡單版，先不加密
+        Member member = new Member();
+        member.setUsername(req.getUsername());
+        member.setPassword(req.getPassword()); // 最簡單版，先不加密
 
-        userService.register(user);
+        memberService.register(member);
 
         // 5. 回傳成功訊息
         return ResponseEntity.ok("註冊成功");
@@ -71,7 +71,7 @@ public class UserController {
         }
 
         // 2. 驗證帳號密碼
-        boolean valid = userService.validateUser(req.getUsername(), req.getPassword());
+        boolean valid = memberService.validateUser(req.getUsername(), req.getPassword());
 
         if (!valid) {
             return ResponseEntity
@@ -80,20 +80,20 @@ public class UserController {
         }
 
         // 3. 回傳最簡單的 JSON（只給 memberId）
-        User user = userService
+        Member member = memberService
                 .findByUsername(req.getUsername())
                 .orElse(null);
 
 
         return ResponseEntity.ok(
-                java.util.Map.of("memberId", user.getMemberId())
+                java.util.Map.of("memberId", member.getMemberId())
         );
 
     }
 
     // ========= 測試用：取得所有使用者 =========
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<Member> getAllUsers() {
+        return memberService.getAllUsers();
     }
 }
