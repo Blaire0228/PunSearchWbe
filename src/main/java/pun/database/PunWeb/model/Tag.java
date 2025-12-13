@@ -13,7 +13,7 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer tagId;
 
     @Column(unique = true)
     private String name;
@@ -30,12 +30,12 @@ public class Tag {
     }
 
     // Getter / Setter
-    public Integer getId() {
-        return id;
+    public Integer getTagId() {
+        return tagId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
     }
 
     public String getName() {

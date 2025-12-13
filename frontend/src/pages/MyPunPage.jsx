@@ -86,7 +86,7 @@ const MyPunPage = () => {
                 imageUrl: newPun.imageUrl,
                 createdBy: memberId,
                 tags: [
-                    { id: newPun.tags }   // 👈 關鍵就在這一行
+                    { tagId: newPun.tags }   // 👈 關鍵就在這一行
                 ]
             };
 
@@ -178,7 +178,7 @@ const MyPunPage = () => {
                         >
                             <option value="" disabled>請選擇標籤 (必選)</option> {/* [修改 3/3]: 預設選項變為 disabled 佔位符 */}
                             {availableTags.map(tag => (
-                                <option key={tag.id} value={tag.id}>
+                                <option key={tag.tagId} value={tag.tagId}>
                                     {tag.name}
                                 </option>
                             ))}

@@ -47,7 +47,7 @@ function App() {
         <Route path="/search" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/detail/:id" element={<DetailPage />} />
+        <Route path="/detail/:punId" element={<DetailPage />} />
         <Route path="/mypun" element={<MyPunPage />} />
         {/* 處理未知路徑，導回首頁或登入頁 */}
         <Route path="*" element={<Navigate to="/" replace />} />

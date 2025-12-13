@@ -5,11 +5,11 @@ VALUES ('admin', 'admin123');
 
 -- 2. 新增標籤 (定義 ID 以便後續對應)
 -- ID: 1=冷笑話, 2=地獄, 3=商業, 4=知識型, 5=實用(日常)
-INSERT INTO tag (id, name) VALUES (1, '冷笑話');
-INSERT INTO tag (id, name) VALUES (2, '地獄');
-INSERT INTO tag (id, name) VALUES (3, '商業');
-INSERT INTO tag (id, name) VALUES (4, '知識型');
-INSERT INTO tag (id, name) VALUES (5, '實用(日常)');
+INSERT INTO tag (name) VALUES ('冷笑話');
+INSERT INTO tag (name) VALUES ('地獄');
+INSERT INTO tag (name) VALUES ('商業');
+INSERT INTO tag (name) VALUES ('知識型');
+INSERT INTO tag (name) VALUES ('實用(日常)');
 
 -- 3. 新增笑話本體 (注意：這裡移除了 tags 欄位)
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('魯蛇翻身', 'loser翻身', '', 1, CURRENT_TIMESTAMP);

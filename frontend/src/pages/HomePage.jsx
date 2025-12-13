@@ -116,17 +116,17 @@ const HomePage = () => {
             <div className="flex flex-wrap gap-2">
               {allTags.map(tag => (
                 <label
-                  key={tag.id}
+                  key={tag.tagId}
                   className={`cursor-pointer px-3 py-1 rounded-full border text-sm transition select-none
-                    ${selectedTagIds.includes(tag.id)
+                    ${selectedTagIds.includes(tag.tagId)
                       ? 'bg-[#8AB65D] text-white border-[#8AB65D]'
                       : 'bg-white text-gray-600 border-gray-300 hover:border-[#8AB65D]'}`}
                 >
                   <input
                     type="checkbox"
                     className="hidden" // 隱藏原生 checkbox，用樣式做按鈕感
-                    checked={selectedTagIds.includes(tag.id)}
-                    onChange={() => handleTagChange(tag.id)}
+                    checked={selectedTagIds.includes(tag.tagId)}
+                    onChange={() => handleTagChange(tag.tagId)}
                   />
                   {tag.name}
                 </label>
@@ -158,12 +158,12 @@ const HomePage = () => {
             {puns.length > 0 ? (
               puns.map(pun => (
                 <PunCard
-                  key={pun.id}
-                  id={pun.id}
+                  key={pun.punId}
+                  id={pun.punId}
                   title={pun.content}
                   tags={pun.tags} // 現在後端會正確回傳 List<Tag>
                   status={pun.status}
-                  onClick={() => navigate(`/detail/${pun.id}`)}
+                  onClick={() => navigate(`/detail/${pun.punId}`)}
                 />
               ))
             ) : (

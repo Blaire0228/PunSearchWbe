@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 
 const DetailPage = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // 2. 從網址抓取 id (例如 /detail/5，id 就是 5)
+  const { punId } = useParams(); // 2. 從網址抓取 id (例如 /detail/5，id 就是 5)
 
   // 3. 定義狀態：存資料、載入中、錯誤訊息
   const [pun, setPun] = useState(null);
@@ -13,7 +13,7 @@ const DetailPage = () => {
 
   // 4. 頁面載入時，去跟後端要這筆資料
   useEffect(() => {
-    fetch(`http://localhost:8080/puns/${id}`)
+    fetch(`http://localhost:8080/puns/${punId}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('找不到這則笑話或是網路錯誤');
@@ -29,7 +29,7 @@ const DetailPage = () => {
         console.error("發生錯誤:", error);
         setLoading(false);
       });
-  }, [id]); // 當 id 改變時重新抓取
+  }, [punId]); // 當 id 改變時重新抓取
 
   // 5. 處理載入中或找不到資料的狀況
   if (loading) return <Layout><div className="p-10 text-center">載入中...</div></Layout>;
@@ -69,7 +69,7 @@ const DetailPage = () => {
               {Array.isArray(pun.tags) && pun.tags.length > 0 ? (
                 pun.tags.map(tag => (
                   <span
-                    key={tag.id}
+                    key={tag.tagId}
                     className="bg-white px-4 py-1.5 rounded-md shadow-sm text-gray-500 text-sm font-medium border border-gray-100"
                   >
                     #{tag.name}
