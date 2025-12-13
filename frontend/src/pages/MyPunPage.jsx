@@ -217,7 +217,7 @@ const MyPunPage = () => {
                 <div className="space-y-4">
                     {myPuns.map((pun) => (
                         <div 
-                            key={pun.id} 
+                            key={pun.punId}
                             className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition"
                         >
                             <div className="flex-1 min-w-0 pr-4">
@@ -227,11 +227,11 @@ const MyPunPage = () => {
                                     {pun.tags && pun.tags.length > 0
                                         ? pun.tags.map(tag => tag.name).join('、')
                                         : ' 無標籤'}
-                                    <span className="ml-3 text-xs text-gray-400">ID: {pun.id}</span>
+                                    <span className="ml-3 text-xs text-gray-400">ID: {pun.punId}</span>
                                 </p>
                             </div>
                             <button
-                                onClick={() => handleDeletePun(pun.id)}
+                                onClick={() => handleDeletePun(pun.punId)}
                                 className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition flex-shrink-0"
                                 title="刪除"
                             >

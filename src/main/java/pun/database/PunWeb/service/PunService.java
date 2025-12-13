@@ -17,16 +17,16 @@ public class PunService {
         return punRepository.findAll();
     }
 
-    public Pun getPunById(Integer id) {
-        return punRepository.findById(id).orElse(null);
+    public Pun getPunById(Integer punId) {
+        return punRepository.findById(punId).orElse(null);
     }
 
     public Pun createPun(Pun pun) {
         return punRepository.save(pun);
     }
 
-    public Pun updatePun(Integer id, Pun updatePun) {
-        Optional<Pun> optionalPun = punRepository.findById(id);
+    public Pun updatePun(Integer punId, Pun updatePun) {
+        Optional<Pun> optionalPun = punRepository.findById(punId);
         if(optionalPun.isPresent()) {
             Pun pun = optionalPun.get();
             pun.setContent(updatePun.getContent());
@@ -36,8 +36,8 @@ public class PunService {
         }
         return null;
     }
-    public void deletePun(Integer id) {
-        punRepository.deleteById(id);
+    public void deletePun(Integer punId) {
+        punRepository.deleteById(punId);
     }
 
     // [新增功能] 根據創建者 ID 獲取諧音梗列表

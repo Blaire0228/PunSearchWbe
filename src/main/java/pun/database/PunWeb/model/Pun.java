@@ -17,7 +17,7 @@ public class Pun {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pun_id")
-    private Integer id;
+    private Integer punId;
 
     private String content;
 
@@ -54,8 +54,8 @@ public class Pun {
     }
 
     // --- Getter & Setter ---
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getPunId() { return punId; }
+    public void setPunId(Integer punId) { this.punId = punId; }
 
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
@@ -67,8 +67,8 @@ public class Pun {
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
 
-    public LocalDate getCreatedDate() { return createDate; }
-    public void setCreatedDate(LocalDate createDate) { this.createDate = this.createDate; }
+    public LocalDate getCreateDate() { return createDate; }
+    public void setCreateDate(LocalDate createDate) { this.createDate = createDate; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

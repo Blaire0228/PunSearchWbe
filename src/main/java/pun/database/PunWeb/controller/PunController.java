@@ -19,9 +19,9 @@ public class PunController {
         return punService.getAllPuns();
     }
 
-    @GetMapping("/{id}")
-    public Pun getPunById(@PathVariable Integer id) {
-        return punService.getPunById(id);
+    @GetMapping("/{punId}")
+    public Pun getPunById(@PathVariable Integer punId) {
+        return punService.getPunById(punId);
     }
 
     @GetMapping("/search")
@@ -49,14 +49,14 @@ public class PunController {
         return punService.createPun(pun);
     }
 
-    @PostMapping("/{id}")
-    public Pun updatePun(@PathVariable Integer id, @RequestBody Pun pun) {
-        return punService.updatePun(id, pun);
+    @PostMapping("/{punId}")
+    public Pun updatePun(@PathVariable Integer punId, @RequestBody Pun pun) {
+        return punService.updatePun(punId, pun);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePun(@PathVariable Integer id) {
-        punService.deletePun(id);
+    @DeleteMapping("/{punId}")
+    public void deletePun(@PathVariable Integer punId) {
+        punService.deletePun(punId);
     }
 
 }
