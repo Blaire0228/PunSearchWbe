@@ -71,16 +71,10 @@ const Layout = ({ children }) => {
             <div
               className={`absolute top-12 right-0 ${colors.panelBrown} p-3 rounded-lg shadow-xl flex flex-col gap-2 z-50 w-32 border-2 border-white/20`}
             >
-              {isLoggedIn ? (
                 <>
                   <MenuButton
                     text="收藏清單"
                     onClick={() => navigate('/favorites')}
-                  />
-
-                  <MenuButton
-                    text="重設密碼"
-                    onClick={() => navigate('/reset-password')}
                   />
 
                   <MenuButton
@@ -93,12 +87,6 @@ const Layout = ({ children }) => {
                     onClick={handleLogout}
                   />
                 </>
-              ) : (
-                <MenuButton
-                  text="登入"
-                  onClick={() => navigate('/login')}
-                />
-              )}
             </div>
           )}
 

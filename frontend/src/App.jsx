@@ -15,46 +15,89 @@ export const AuthContext = createContext({
 });
 
 function App() {
-     // 4. 建立狀態來模擬登入狀態和使用者 ID
-      // 初始值從 localStorage 讀取，以保持頁面刷新後的狀態
-      const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
-      const [memberId, setMemberId] = useState(() => parseInt(localStorage.getItem('memberId')) || null);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => localStorage.getItem('isLoggedIn') === 'true'
+  );
+  const [memberId, setMemberId] = useState(
+    () => parseInt(localStorage.getItem('memberId')) || null
+  );
 
-      // 5. 實作登入/登出函式
-      const authContextValue = useMemo(() => ({
-        isLoggedIn,
-        memberId,
-        // 模擬登入：將 ID 設為 1 (Admin) 並儲存
-        login: (id) => {
-          setIsLoggedIn(true);
-          setMemberId(id);
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('memberId', id.toString());
-        },
-        logout: () => {
-          setIsLoggedIn(false);
-          setMemberId(null);
-          localStorage.removeItem('isLoggedIn');
-          localStorage.removeItem('memberId');
-        },
-      }), [isLoggedIn, memberId]);
+  const authContextValue = useMemo(() => ({
+    isLoggedIn,
+    memberId,
+    login: (id) => {
+      setIsLoggedIn(true);
+      setMemberId(id);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('memberId', id.toString());
+    },
+    logout: () => {
+      setIsLoggedIn(false);
+      setMemberId(null);
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('memberId');
+    },
+  }), [isLoggedIn, memberId]);
 
+  const ProtectedRoute = ({ children }) => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    return isLoggedIn ? children : <Navigate to="/login" replace />;
+  };
+
+  const RootRedirect = () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    return isLoggedIn
+      ? <Navigate to="/search" replace />
+      : <Navigate to="/login" replace />;
+  };
+
+  // ✅ ✅ ✅ 關鍵在這個 return
   return (
-  <AuthContext.Provider value={authContextValue}>
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/search" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/detail/:punId" element={<DetailPage />} />
-        <Route path="/mypun" element={<MyPunPage />} />
-        {/* 處理未知路徑，導回首頁或登入頁 */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
-  </AuthContext.Provider>
+    <AuthContext.Provider value={authContextValue}>
+      <Router>
+        <Routes>
+
+          {/* 根路由 */}
+          <Route path="/" element={<RootRedirect />} />
+
+          {/* 未登入 */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+
+          {/* 已登入 */}
+          <Route
+            path="/search"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/detail/:punId"
+            element={
+              <ProtectedRoute>
+                <DetailPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/mypun"
+            element={
+              <ProtectedRoute>
+                <MyPunPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </AuthContext.Provider>
   );
 }
+
 
 export default App;

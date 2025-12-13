@@ -41,7 +41,7 @@ const LoginPage = () => {
       const data = await res.json();
       // 假設後端回傳 { memberId, memberName }
       login(data.memberId);
-      navigate('/');
+      navigate('/search');
     } catch (err) {
       console.error(err);
       alert('無法連線到伺服器，請確認後端有啟動');
@@ -84,10 +84,7 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
               />
 
-              <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
-                <button type="button" className="hover:underline">
-                  忘記密碼？
-                </button>
+              <div className="flex justify-center items-center text-sm text-gray-500 mt-2">
                 <button
                     type="submit"
                     disabled={loading}
