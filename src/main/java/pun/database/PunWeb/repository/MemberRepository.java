@@ -5,9 +5,9 @@ import pun.database.PunWeb.model.Member;
 
 import java.util.Optional; // Optional 用來包裝可能為 null 的回傳值
 
-public interface UserRepository extends JpaRepository<Member, Integer> { // 介面繼承 JpaRepository，<實體類別, 主鍵型別>
+public interface MemberRepository extends JpaRepository<Member, Integer> { // 介面繼承 JpaRepository，<實體類別, 主鍵型別>
 
-    Optional<Member> findByUsername(String username); // 根據 username 查詢使用者，可能查不到所以用 Optional 包起來
+    Optional<Member> findByMemberName(String memberName); // 根據 username 查詢使用者，可能查不到所以用 Optional 包起來
 
-    boolean existsByUsername(String username); // 檢查某個 username 是否已經存在，回傳 true / false
+    boolean existsByMemberName(String memberName); // 檢查某個 username 是否已經存在，回傳 true / false
 } // 結束 UserRepository 介面

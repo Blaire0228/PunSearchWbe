@@ -3,7 +3,7 @@ package pun.database.PunWeb.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "member")
 public class Member {
 
     @Id
@@ -11,18 +11,19 @@ public class Member {
     @Column(name = "member_id")
     private Integer memberId;
 
-    private String username; // 帳號（前端輸入的帳號）
+    @Column(name = "member_name")
+    private String memberName;
 
     private String password; // 密碼（先用純文字版）
 
     public Integer getMemberId() {return memberId;}
 
-    public String getUsername() {
-        return username;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public String getPassword() {

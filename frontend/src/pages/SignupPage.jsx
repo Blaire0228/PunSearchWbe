@@ -5,7 +5,7 @@ const SignupPage = () => {
     const navigate = useNavigate();
 
     // 加上 state
-    const [username, setUsername] = useState('');
+    const [memberName, setMemberName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const SignupPage = () => {
         e.preventDefault();
 
         // 前端先檢查一次
-        if (!username || !password || !confirmPassword) {
+        if (!memberName || !password || !confirmPassword) {
             alert('請把帳號與密碼填好');
             return;
         }
@@ -27,13 +27,13 @@ const SignupPage = () => {
         try {
             setLoading(true);
 
-            const res = await fetch('http://localhost:8080/users/register', {
+            const res = await fetch('http://localhost:8080/members/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username,
+                    memberName,
                     password,
                     confirmPassword,
                 }),
@@ -68,8 +68,8 @@ const SignupPage = () => {
                             type="text"
                             placeholder="帳號"
                             className="w-full p-3 rounded-md bg-white/30 placeholder-white/70 text-white focus:outline-none border border-white/40 focus:bg-white/40 transition"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={memberName}
+                            onChange={(e) => setMemberName(e.target.value)}
                         />
 
                         <input

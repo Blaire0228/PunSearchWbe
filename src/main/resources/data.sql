@@ -1,5 +1,5 @@
 -- 1. 新增使用者
-INSERT INTO users(username, password)
+INSERT INTO member(member_name, password)
 VALUES ('admin', 'admin123');
 
 

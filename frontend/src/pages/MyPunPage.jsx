@@ -9,7 +9,7 @@ const API_BASE = 'http://localhost:8080/puns';
 
 const MyPunPage = () => {
     const navigate = useNavigate();
-    const { isLoggedIn, userId } = useContext(AuthContext);
+    const { isLoggedIn, memberId } = useContext(AuthContext);
 
     // 狀態
     const [myPuns, setMyPuns] = useState([]);
@@ -35,12 +35,12 @@ const MyPunPage = () => {
 
     // 獲取使用者自己的 Pun 列表和所有可用標籤
     const fetchPunsAndTags = async () => {
-        if (!userId) return; // 確保有使用者 ID
+        if (!memberId) return; // 確保有使用者 ID
 
         setLoading(true);
         try {
-            // 1. 獲取使用者 Pun 列表 (GET /puns/user/{userId})
-            const punResponse = await fetch(`${API_BASE}/user/${userId}`);
+            // 1. 獲取使用者 Pun 列表 (GET /puns/member/{memberId})
+            const punResponse = await fetch(`${API_BASE}/member/${memberId}`);
             const punData = await punResponse.json();
             setMyPuns(punData);
 
@@ -60,7 +60,7 @@ const MyPunPage = () => {
 
     useEffect(() => {
         fetchPunsAndTags();
-    }, [userId]);
+    }, [memberId]);
 
 
     // 處理新增 Pun
@@ -84,7 +84,7 @@ const MyPunPage = () => {
                 content: newPun.content,
                 description: newPun.description,
                 imageUrl: newPun.imageUrl,
-                createdBy: userId,
+                createdBy: memberId,
                 tags: [
                     { id: newPun.tags }   // 👈 關鍵就在這一行
                 ]

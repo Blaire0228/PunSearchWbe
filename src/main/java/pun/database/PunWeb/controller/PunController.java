@@ -33,9 +33,9 @@ public class PunController {
     }
 
     // [新增功能] 獲取特定使用者新增的諧音梗列表
-    @GetMapping("/user/{userId}")
-    public List<Pun> getPunsByUserId(@PathVariable Integer userId) {
-        return punService.getPunsByCreatedBy(userId);
+    @GetMapping("/member/{memberId}")
+    public List<Pun> getPunsByMemberId(@PathVariable Integer memberId) {
+        return punService.getPunsByCreatedBy(memberId);
     }
 
     // [新增功能] 獲取所有不重複的標籤列表

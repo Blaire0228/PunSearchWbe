@@ -9,7 +9,7 @@ import MyPunPage from './pages/MyPunPage';
 // 3. 創建 AuthContext
 export const AuthContext = createContext({
   isLoggedIn: false,
-  userId: null,
+  memberId: null,
   login: () => {},
   logout: () => {},
 });
@@ -18,26 +18,26 @@ function App() {
      // 4. 建立狀態來模擬登入狀態和使用者 ID
       // 初始值從 localStorage 讀取，以保持頁面刷新後的狀態
       const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
-      const [userId, setUserId] = useState(() => parseInt(localStorage.getItem('userId')) || null);
+      const [memberId, setMemberId] = useState(() => parseInt(localStorage.getItem('memberId')) || null);
 
       // 5. 實作登入/登出函式
       const authContextValue = useMemo(() => ({
         isLoggedIn,
-        userId,
+        memberId,
         // 模擬登入：將 ID 設為 1 (Admin) 並儲存
         login: (id) => {
           setIsLoggedIn(true);
-          setUserId(id);
+          setMemberId(id);
           localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('userId', id.toString());
+          localStorage.setItem('memberId', id.toString());
         },
         logout: () => {
           setIsLoggedIn(false);
-          setUserId(null);
+          setMemberId(null);
           localStorage.removeItem('isLoggedIn');
-          localStorage.removeItem('userId');
+          localStorage.removeItem('memberId');
         },
-      }), [isLoggedIn, userId]);
+      }), [isLoggedIn, memberId]);
 
   return (
   <AuthContext.Provider value={authContextValue}>

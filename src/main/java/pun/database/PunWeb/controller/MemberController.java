@@ -13,9 +13,9 @@ import pun.database.PunWeb.service.MemberService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/members")
 @CrossOrigin(origins = "http://localhost:3000")
-public class UserController {
+public class MemberController {
 
     @Autowired
     private MemberService memberService;
@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
 
         // 1. 檢查必填欄位
-        if (req.getUsername() == null || req.getUsername().isEmpty()
+        if (req.getMemberName() == null || req.getMemberName().isEmpty()
                 || req.getPassword() == null || req.getPassword().isEmpty()
                 || req.getConfirmPassword() == null || req.getConfirmPassword().isEmpty()) {
             return ResponseEntity
@@ -41,15 +41,15 @@ public class UserController {
         }
 
         // 3. 檢查帳號是否已存在
-        if (memberService.existsByUsername(req.getUsername())) {
+        if (memberService.existsByMemberName(req.getMemberName())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body("此帳號已被使用");
         }
 
-        // 4. 建立 User 實體並存入資料庫
+        // 4. 建立 Member 實體並存入資料庫
         Member member = new Member();
-        member.setUsername(req.getUsername());
+        member.setMemberName(req.getMemberName());
         member.setPassword(req.getPassword()); // 最簡單版，先不加密
 
         memberService.register(member);
@@ -63,7 +63,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 
         // 1. 檢查必填欄位
-        if (req.getUsername() == null || req.getUsername().isEmpty()
+        if (req.getMemberName() == null || req.getMemberName().isEmpty()
                 || req.getPassword() == null || req.getPassword().isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -71,7 +71,7 @@ public class UserController {
         }
 
         // 2. 驗證帳號密碼
-        boolean valid = memberService.validateUser(req.getUsername(), req.getPassword());
+        boolean valid = memberService.validateMember(req.getMemberName(), req.getPassword());
 
         if (!valid) {
             return ResponseEntity
@@ -81,7 +81,7 @@ public class UserController {
 
         // 3. 回傳最簡單的 JSON（只給 memberId）
         Member member = memberService
-                .findByUsername(req.getUsername())
+                .findByMemberName(req.getMemberName())
                 .orElse(null);
 
 
@@ -91,9 +91,10 @@ public class UserController {
 
     }
 
-    // ========= 測試用：取得所有使用者 =========
+    // ========= 取得所有會員（測試用） =========
     @GetMapping
-    public List<Member> getAllUsers() {
-        return memberService.getAllUsers();
+    public List<Member> getAllMembers() {
+        return memberService.getAllMembers();
     }
+
 }

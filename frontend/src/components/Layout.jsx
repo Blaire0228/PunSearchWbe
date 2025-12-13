@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
           >
             <img
                         src={userLogo}
-                        alt="user Logo"
+                        alt="member Logo"
                         className="w-12 h-12 object-contain"
                         />
           </button>

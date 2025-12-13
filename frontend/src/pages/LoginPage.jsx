@@ -6,14 +6,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const [username, setUsername] = useState('');
+  const [memberName, setMemberName] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!username || !password) {
+    if (!memberName || !password) {
       alert('請輸入帳號與密碼');
       return;
     }
@@ -21,13 +21,13 @@ const LoginPage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch('http://localhost:8080/users/login', {
+      const res = await fetch('http://localhost:8080/members/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username,
+          memberName,
           password,
         }),
       });
@@ -39,7 +39,7 @@ const LoginPage = () => {
       }
 
       const data = await res.json();
-      // 假設後端回傳 { memberId, username }
+      // 假設後端回傳 { memberId, memberName }
       login(data.memberId);
       navigate('/');
     } catch (err) {
@@ -73,8 +73,8 @@ const LoginPage = () => {
                   type="text"
                   placeholder="帳號"
                   className="w-full p-3 rounded-md bg-[#E5E5E5] focus:outline-none focus:ring-2 focus:ring-[#F58F58]"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={memberName}
+                  onChange={(e) => setMemberName(e.target.value)}
               />
               <input
                   type="password"

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -19,28 +19,28 @@ public class UserService {
         return memberRepository.save(member);
     }
 
-    // 用 username 找使用者
-    public Optional<Member> findByUsername(String username) {
-        return memberRepository.findByUsername(username);
+    // 用 memberName 找使用者
+    public Optional<Member> findByMemberName(String memberName) {
+        return memberRepository.findByMemberName(memberName);
     }
 
     // 查全部使用者
-    public List<Member> getAllUsers() {
+    public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
 
     // 新增：檢查帳號是否存在(註冊用)
-    public boolean existsByUsername(String username) {
-        return memberRepository.existsByUsername(username);
+    public boolean existsByMemberName(String memberName) {
+        return memberRepository.existsByMemberName(memberName);
     }
 
     // 登入用，驗證帳號密碼是否正確
-    public boolean validateUser(String username, String password) {
-        Optional<Member> userOpt = memberRepository.findByUsername(username);
-        if (userOpt.isEmpty()) {
+    public boolean validateMember(String memberName, String password) {
+        Optional<Member> memberOpt = memberRepository.findByMemberName(memberName);
+        if (memberOpt.isEmpty()) {
             return false;
         }
-        Member member = userOpt.get();
+        Member member = memberOpt.get();
         // 現在是最簡單版：直接比對純文字密碼
         return member.getPassword().equals(password);
     }

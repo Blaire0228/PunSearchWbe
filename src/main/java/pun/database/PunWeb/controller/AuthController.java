@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pun.database.PunWeb.model.*;
-import pun.database.PunWeb.repository.UserRepository;
+import pun.database.PunWeb.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpSession;
 import java.util.*;
@@ -14,16 +14,16 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AuthController {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthController(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
 
-        if (req.getUsername() == null || req.getUsername().isBlank()) {
+        if (req.getMemberName() == null || req.getMemberName().isBlank()) {
             return ResponseEntity.badRequest().body("帳號不能是空白");
         }
 
@@ -31,15 +31,15 @@ public class AuthController {
             return ResponseEntity.badRequest().body("密碼與確認密碼不一致");
         }
 
-        if (userRepository.existsByUsername(req.getUsername())) {
+        if (memberRepository.existsByMemberName(req.getMemberName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("帳號已被使用");
         }
 
-        User newUser = new User();
-        newUser.setUsername(req.getUsername());
-        newUser.setPassword(req.getPassword()); //（簡化：未加密）
+        Member newMember = new Member();
+        newMember.setMemberName(req.getMemberName());
+        newMember.setPassword(req.getPassword()); //（簡化：未加密）
 
-        userRepository.save(newUser);
+        memberRepository.save(newMember);
 
         return ResponseEntity.ok("註冊成功");
     }
@@ -47,20 +47,20 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req, HttpSession session) {
 
-        Optional<User> userOpt = userRepository.findByUsername(req.getUsername());
+        Optional<Member> memberOpt = memberRepository.findByMemberName(req.getMemberName());
 
-        if (userOpt.isEmpty()) {
+        if (memberOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("帳號或密碼錯誤");
         }
 
-        User user = userOpt.get();
+        Member member = memberOpt.get();
 
-        if (!user.getPassword().equals(req.getPassword())) {
+        if (!member.getPassword().equals(req.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("帳號或密碼錯誤");
         }
 
-        session.setAttribute("USER_ID", user.getMemberId());
-        session.setAttribute("USERNAME", user.getUsername());
+        session.setAttribute("MEMBER_ID", member.getMemberId());
+        session.setAttribute("MEMBER_NAME", member.getMemberName());
 
         return ResponseEntity.ok("登入成功");
     }
@@ -74,15 +74,15 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> me(HttpSession session) {
 
-        Object uid = session.getAttribute("USER_ID");
+        Object mid = session.getAttribute("MEMBER_ID");
 
-        if (uid == null) {
+        if (mid == null) {
             return ResponseEntity.ok("未登入");
         }
 
         Map<String, Object> data = new HashMap<>();
-        data.put("userId", uid);
-        data.put("username", session.getAttribute("USERNAME"));
+        data.put("memberId", mid);
+        data.put("memberName", session.getAttribute("MEMBER_NAME"));
 
         return ResponseEntity.ok(data);
     }

@@ -2,14 +2,14 @@ package pun.database.PunWeb.model;
 
 public class LoginRequest {
 
-    private String username;
+    private String memberName;
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getMemberName() {
+        return memberName;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public String getPassword() {
