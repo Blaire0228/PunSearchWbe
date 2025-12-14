@@ -4,7 +4,6 @@ import { Trash2, Send, PlusCircle } from 'lucide-react';
 import { AuthContext } from '../App';
 import Layout from '../components/Layout';
 
-// 假設 API URL
 const API_BASE = 'http://localhost:8080/puns';
 
 const MyPunPage = () => {
@@ -26,7 +25,7 @@ const MyPunPage = () => {
         imageUrl: '',
     });
 
-    // 檢查登入狀態，未登入則導航
+    // 檢查登入狀態
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/login');
@@ -35,19 +34,17 @@ const MyPunPage = () => {
 
     // 獲取使用者自己的 Pun 列表和所有可用標籤
     const fetchPunsAndTags = async () => {
-        if (!memberId) return; // 確保有使用者 ID
-
-        setLoading(true);
+        if (!memberId)
+            return setLoading(true);
         try {
-            // 1. 獲取使用者 Pun 列表 (GET /puns/member/{memberId})
+            // 1. 獲取使用者 Pun 列表
             const punResponse = await fetch(`${API_BASE}/member/${memberId}`);
             const punData = await punResponse.json();
             setMyPuns(punData);
 
-            // 2. 獲取所有可用標籤 (GET /tags)
+            // 2. 獲取所有可用標籤
             const tagsResponse = await fetch('http://localhost:8080/tags');
             const tagsData = await tagsResponse.json();
-            // 過濾空標籤，並設定
             setAvailableTags(tagsData);
 
         } catch (error) {
@@ -63,11 +60,10 @@ const MyPunPage = () => {
     }, [memberId]);
 
 
-    // 處理新增 Pun
+    // 新增 Pun
     const handleAddPun = async (e) => {
         e.preventDefault();
-        
-        // [修改 1/3]: 驗證 Content 和 Tags (必選)
+
         if (!newPun.content) {
             alert("諧音梗主體 (Content) 是必填欄位。");
             return;
@@ -86,7 +82,7 @@ const MyPunPage = () => {
                 imageUrl: newPun.imageUrl,
                 createdBy: memberId,
                 tags: [
-                    { tagId: newPun.tags }   // 👈 關鍵就在這一行
+                    { tagId: newPun.tags }
                 ]
             };
 
@@ -100,7 +96,6 @@ const MyPunPage = () => {
                 throw new Error('新增諧音梗失敗');
             }
 
-            // 清空表單並重新整理列表
             setNewPun({ content: '', tags: '', description: '', imageUrl: '' });
             setShowForm(false); 
             fetchPunsAndTags();
@@ -114,7 +109,7 @@ const MyPunPage = () => {
         }
     };
     
-    // 處理刪除 Pun
+    // 刪除 Pun
     const handleDeletePun = async (punId) => {
         if (!window.confirm(`確定要刪除 ID: ${punId} 的諧音梗嗎？`)) {
             return;
@@ -126,7 +121,6 @@ const MyPunPage = () => {
             });
 
             if (!response.ok && response.status !== 204) {
-                 // 204 No Content 是成功刪除常見的回傳碼，不應視為錯誤
                  throw new Error('刪除諧音梗失敗');
             }
 
@@ -140,7 +134,7 @@ const MyPunPage = () => {
         }
     };
 
-    if (!isLoggedIn) return null; // 未登入，等待導航
+    if (!isLoggedIn) return null; // 未登入
 
     if (loading) return <Layout><div className="p-10 text-center text-gray-500">載入中...</div></Layout>;
 
@@ -174,9 +168,9 @@ const MyPunPage = () => {
                             value={newPun.tags}
                             onChange={(e) => setNewPun({ ...newPun, tags: e.target.value })} 
                             className="w-full p-3 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#8AB65D]"
-                            required // [修改 2/3]: 設為必選
+                            required
                         >
-                            <option value="" disabled>請選擇標籤 (必選)</option> {/* [修改 3/3]: 預設選項變為 disabled 佔位符 */}
+                            <option value="" disabled>請選擇標籤 (必選)</option>
                             {availableTags.map(tag => (
                                 <option key={tag.tagId} value={tag.tagId}>
                                     {tag.tagName}

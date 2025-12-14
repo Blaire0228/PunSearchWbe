@@ -3,7 +3,7 @@ INSERT INTO member(member_name, password)
 VALUES ('admin', 'admin123');
 
 
--- 2. 新增標籤 (定義 ID 以便後續對應)
+-- 2. 新增標籤
 -- ID: 1=冷笑話, 2=地獄, 3=商業, 4=知識型, 5=實用(日常)
 INSERT INTO tag (tag_name) VALUES ('冷笑話');
 INSERT INTO tag (tag_name) VALUES ('地獄');
@@ -11,7 +11,7 @@ INSERT INTO tag (tag_name) VALUES ('商業');
 INSERT INTO tag (tag_name) VALUES ('知識型');
 INSERT INTO tag (tag_name) VALUES ('實用(日常)');
 
--- 3. 新增笑話本體 (注意：這裡移除了 tags 欄位)
+-- 3. 新增諧音梗本體
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('魯蛇翻身', 'loser翻身', '', 1, CURRENT_TIMESTAMP);
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('有蛇有得', '有捨有得', '', 1, CURRENT_TIMESTAMP);
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('蛇麼攏賀', '什麼都好（台語）', '', 1, CURRENT_TIMESTAMP);
@@ -170,7 +170,7 @@ INSERT INTO pun (content, description, image_url, created_by, create_date) VALUE
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('殯原歷險記', '冰原歷險記（殯葬相關）', '', 1, CURRENT_TIMESTAMP);
 INSERT INTO pun (content, description, image_url, created_by, create_date) VALUES ('海釋神樓', '海市蜃樓（殯葬相關）', '', 1, CURRENT_TIMESTAMP);
 
--- 4. 建立 Many-to-Many 關聯表 (最重要的一步，將標籤貼到笑話上)
+-- 4. 建立 Many-to-Many 關聯表
 
 -- 冷笑話 (1~18)
 INSERT INTO pun_tag (pun_id, tag_id) SELECT pun_id, 1 FROM pun WHERE pun_id BETWEEN 1 AND 18;

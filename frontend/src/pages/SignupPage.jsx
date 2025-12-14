@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
     const navigate = useNavigate();
-
-    // 加上 state
     const [memberName, setMemberName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,7 +11,6 @@ const SignupPage = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
 
-        // 前端先檢查一次
         if (!memberName || !password || !confirmPassword) {
             alert('請把帳號與密碼填好');
             return;
@@ -39,11 +36,11 @@ const SignupPage = () => {
                 }),
             });
 
-            const text = await res.text(); // 後端回傳的是純文字訊息
+            const text = await res.text();
 
             if (res.ok) {
                 alert(text || '註冊成功！');
-                navigate('/login'); // 成功後導去登入頁
+                navigate('/login');
             } else {
                 alert(text || '註冊失敗，請再試一次');
             }
@@ -59,7 +56,7 @@ const SignupPage = () => {
         <div className="flex justify-center items-center min-h-screen bg-[#F5F5F5] p-4">
             <div className="flex w-full max-w-4xl h-[500px] shadow-2xl rounded-2xl overflow-hidden bg-white">
 
-                {/* 左側：註冊表單 (深色區塊) */}
+                {/* 註冊 */}
                 <div className="bg-[#D09E86] w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-10 relative">
                     <h2 className="text-3xl font-bold text-white mb-6">歡迎</h2>
 
@@ -98,17 +95,6 @@ const SignupPage = () => {
                             </button>
                         </div>
                     </form>
-
-                    {/* 手機版顯示的登入連結 */}
-                    <div className="mt-6 md:hidden text-sm text-white/80">
-                        已經有帳號？{' '}
-                        <button
-                            onClick={() => navigate('/login')}
-                            className="font-bold underline"
-                        >
-                            去登入
-                        </button>
-                    </div>
                 </div>
 
                 {/* 右側：已有帳號？去登入 (淺色區塊) */}

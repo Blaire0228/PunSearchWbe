@@ -8,24 +8,23 @@ import pun.database.PunWeb.model.Pun;
 import java.util.List;
 
 public interface PunRepository extends JpaRepository<Pun, Integer> {
-    //多標籤查詢
+    //無關鍵字，以標籤搜尋，回傳被選取標籤的諧音梗
     @Query("SELECT DISTINCT p FROM Pun p JOIN p.tags t WHERE t.tagId IN :tagIds")
     List<Pun> findByTagIds(@Param("tagIds") List<Integer> tagIds);
 
-    //多標籤+keyword查詢
+    //以標籤及關鍵字搜尋
     @Query("SELECT DISTINCT p FROM Pun p JOIN p.tags t " +
             "WHERE t.tagId IN :tagIds AND LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Pun> findByTagIdsAndKeyword(@Param("tagIds") List<Integer> tagIds,
                                      @Param("keyword") String keyword);
 
-    //純文字搜尋
+    //無標籤，以關鍵字搜尋，回傳有該關鍵字的諧音梗
     List<Pun> findByContentContainingIgnoreCase(String keyword);
 
-    // 根據創建者 ID 查找所有 Pun
+    // 根據創建者的會員ID查所有諧音梗
     List<Pun> findByCreatedBy(Integer createdBy);
 
-    // 查找所有不重複的 tags，並將結果以 List<String> 形式返回
-    // TRIM(p.tags) 確保去除前後空格
+    // 查找所有不重複的標籤，並回傳所有的標籤
     @Query("SELECT DISTINCT TRIM(p.tags) FROM Pun p")
     List<String> findDistinctTags();
 

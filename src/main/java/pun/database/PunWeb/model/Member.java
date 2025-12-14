@@ -14,7 +14,7 @@ public class Member {
     @Column(name = "member_name")
     private String memberName;
 
-    private String password; // 密碼（先用純文字版）
+    private String password;
 
     public Integer getMemberId() {return memberId;}
 

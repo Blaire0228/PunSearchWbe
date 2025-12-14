@@ -18,7 +18,6 @@ public class Tag {
     @Column(unique = true)
     private String tagName;
 
-    // 多對多反向關聯，不會產生新表
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
     private List<Pun> puns = new ArrayList<>();
@@ -29,7 +28,7 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    // Getter / Setter
+    // Getter & Setter
     public Integer getTagId() {
         return tagId;
     }

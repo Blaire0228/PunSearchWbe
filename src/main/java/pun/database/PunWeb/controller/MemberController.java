@@ -20,7 +20,6 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    // ========= 註冊 API =========
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
 
@@ -50,7 +49,7 @@ public class MemberController {
         // 4. 建立 Member 實體並存入資料庫
         Member member = new Member();
         member.setMemberName(req.getMemberName());
-        member.setPassword(req.getPassword()); // 最簡單版，先不加密
+        member.setPassword(req.getPassword());
 
         memberService.register(member);
 
@@ -58,7 +57,6 @@ public class MemberController {
         return ResponseEntity.ok("註冊成功");
     }
 
-    // ========= 登入 API =========
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 
@@ -79,7 +77,7 @@ public class MemberController {
                     .body("帳號或密碼錯誤");
         }
 
-        // 3. 回傳最簡單的 JSON（只給 memberId）
+        // 3. 回傳memberId
         Member member = memberService
                 .findByMemberName(req.getMemberName())
                 .orElse(null);
@@ -91,7 +89,6 @@ public class MemberController {
 
     }
 
-    // ========= 取得所有會員（測試用） =========
     @GetMapping
     public List<Member> getAllMembers() {
         return memberService.getAllMembers();

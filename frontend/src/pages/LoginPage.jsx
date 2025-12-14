@@ -39,7 +39,7 @@ const LoginPage = () => {
       }
 
       const data = await res.json();
-      // 假設後端回傳 { memberId, memberName }
+
       login(data.memberId);
       navigate('/search');
     } catch (err) {
@@ -54,7 +54,7 @@ const LoginPage = () => {
       <div className="flex justify-center items-center min-h-screen bg-[#F5F5F5] p-4">
         <div className="flex w-full max-w-4xl h-[500px] shadow-2xl rounded-2xl overflow-hidden bg-white">
 
-          {/* 左側：還沒帳號？去註冊 (深色區塊) */}
+          {/* 註冊 */}
           <div className="bg-[#D09E86] w-1/2 hidden md:flex flex-col justify-center items-center text-white p-10 space-y-6">
             <h2 className="text-3xl font-bold">還沒有帳號嗎？</h2>
             <button
@@ -65,7 +65,7 @@ const LoginPage = () => {
             </button>
           </div>
 
-          {/* 右側：登入表單 (淺色區塊) */}
+          {/* 登入 */}
           <div className="bg-[#FDFBF6] w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-10">
             <h2 className="text-3xl font-bold mb-8 text-gray-700">歡迎</h2>
             <form className="w-full max-w-xs space-y-4" onSubmit={handleLogin}>
@@ -94,17 +94,6 @@ const LoginPage = () => {
                 </button>
               </div>
             </form>
-
-            {/* 手機版顯示的註冊連結 */}
-            <div className="mt-8 md:hidden text-sm text-gray-500">
-              還沒有帳號？{' '}
-              <button
-                  onClick={() => navigate('/signup')}
-                  className="text-[#F58F58] font-bold"
-              >
-                去註冊
-              </button>
-            </div>
           </div>
         </div>
       </div>

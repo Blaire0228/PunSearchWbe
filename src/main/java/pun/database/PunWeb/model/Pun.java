@@ -24,7 +24,7 @@ public class Pun {
     @Column(name = "created_by")
     private Integer createdBy;
 
-    // 這就是正規化的關鍵，它會建立關聯表
+    // 標籤與諧音梗正規化
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "pun_tag",
@@ -43,10 +43,10 @@ public class Pun {
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-    // 無參數建構子 (JPA 必要)
+    // 無參數建構子
     public Pun() {}
 
-    // 建構子 (tags 傳入 List 而不是 String)
+    // 建構子
     public Pun(String content, Integer createdBy, List<Tag> tags) {
         this.content = content;
         this.createdBy = createdBy;
@@ -63,7 +63,6 @@ public class Pun {
     public Integer getCreatedBy() { return createdBy; }
     public void setCreatedBy(Integer createdBy) { this.createdBy = createdBy; }
 
-    // 重點：這裡是 List<Tag>，不是 String
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
 

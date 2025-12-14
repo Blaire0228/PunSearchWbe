@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Filter } from 'lucide-react'; // 假設你有 Filter icon
+import { Search, Filter } from 'lucide-react';
 import Layout from '../components/Layout';
 import PunCard from '../components/PunCard';
 
@@ -9,17 +9,17 @@ const HomePage = () => {
 
   // 狀態管理
   const [puns, setPuns] = useState([]);
-  const [allTags, setAllTags] = useState([]); // 儲存後端回傳的所有標籤選項
-  const [selectedTagIds, setSelectedTagIds] = useState([]); // 使用者勾選的標籤 ID
-  const [showTagFilter, setShowTagFilter] = useState(false); // 控制標籤選單是否顯示
+  const [allTags, setAllTags] = useState([]);
+  const [selectedTagIds, setSelectedTagIds] = useState([]);
+  const [showTagFilter, setShowTagFilter] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 1. 初始載入：抓笑話 + 抓標籤清單
+  // 1. 初始載入：抓諧音梗以及標籤清單
   useEffect(() => {
-    fetchPuns();      // 預設抓全部
-    fetchTags();      // 抓標籤選項
+    fetchPuns();
+    fetchTags();
   }, []);
 
   const fetchTags = () => {
@@ -33,18 +33,15 @@ const HomePage = () => {
   const fetchPuns = (keyword = "", tagIds = []) => {
     setLoading(true);
 
-    // 建構 Query String
-    // 例如: http://localhost:8080/puns/search?keyword=哈哈&tags=1,2
     const params = new URLSearchParams();
 
     if (keyword) params.append("keyword", keyword);
 
-    // 如果有勾選標籤，加到參數中
+    //將已選擇的標籤加入搜尋條件
     if (tagIds.length > 0) {
       params.append("tags", tagIds.join(","));
     }
 
-    // 決定要打哪個 API：如果完全沒參數就打 getAll，有參數就打 search
     const url = (keyword === "" && tagIds.length === 0)
       ? 'http://localhost:8080/puns'
       : `http://localhost:8080/puns/search?${params.toString()}`;
@@ -64,7 +61,7 @@ const HomePage = () => {
   // 3. 處理搜尋表單送出
   const handleSearch = (e) => {
     e.preventDefault();
-    // 這裡同時把「目前的搜尋字」和「目前勾選的標籤」送給後端
+    // 把輸入的關鍵字和已選的標籤送給後端
     fetchPuns(searchTerm, selectedTagIds);
   };
 
@@ -72,8 +69,8 @@ const HomePage = () => {
   const handleTagChange = (tagId) => {
     setSelectedTagIds(prev => {
       const newTags = prev.includes(tagId)
-        ? prev.filter(id => id !== tagId) // 取消勾選
-        : [...prev, tagId];               // 新增勾選
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId];
       return newTags;
     });
   };
@@ -109,7 +106,7 @@ const HomePage = () => {
           </button>
         </form>
 
-        {/* 標籤勾選介面 (點擊漏斗後顯示) */}
+        {/* 標籤勾選介面 (點擊icon後顯示) */}
         {showTagFilter && (
           <div className="mt-4 p-4 bg-white rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-sm font-bold text-gray-500 mb-2">篩選標籤:</h3>
@@ -124,7 +121,7 @@ const HomePage = () => {
                 >
                   <input
                     type="checkbox"
-                    className="hidden" // 隱藏原生 checkbox，用樣式做按鈕感
+                    className="hidden"
                     checked={selectedTagIds.includes(tag.tagId)}
                     onChange={() => handleTagChange(tag.tagId)}
                   />
@@ -132,10 +129,9 @@ const HomePage = () => {
                 </label>
               ))}
             </div>
-            {/* 這裡可以加一個立即套用按鈕，或者讓使用者回去按搜尋 */}
             <div className="mt-2 text-right">
                 <button
-                    onClick={handleSearch} // 點擊直接觸發搜尋
+                    onClick={handleSearch} // 點擊按鈕後開始搜尋
                     className="text-xs text-[#8AB65D] font-bold hover:underline"
                 >
                     套用篩選
@@ -145,7 +141,7 @@ const HomePage = () => {
         )}
       </div>
 
-      {/* 列表顯示 */}
+      {/* 搜尋結果列表顯示 */}
       <section>
         <h2 className="text-lg font-bold mb-4 text-gray-700">
           搜尋結果
@@ -161,13 +157,13 @@ const HomePage = () => {
                   key={pun.punId}
                   id={pun.punId}
                   title={pun.content}
-                  tags={pun.tags} // 現在後端會正確回傳 List<Tag>
+                  tags={pun.tags}
                   status={pun.status}
                   onClick={() => navigate(`/detail/${pun.punId}`)}
                 />
               ))
             ) : (
-              <p className="text-gray-500">找不到符合條件的笑話。</p>
+              <p className="text-gray-500">找不到符合條件的諧音梗。</p>
             )}
           </div>
         )}

@@ -37,7 +37,7 @@ public class AuthController {
 
         Member newMember = new Member();
         newMember.setMemberName(req.getMemberName());
-        newMember.setPassword(req.getPassword()); //（簡化：未加密）
+        newMember.setPassword(req.getPassword());
 
         memberRepository.save(newMember);
 

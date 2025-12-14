@@ -40,30 +40,29 @@ public class PunService {
         punRepository.deleteById(punId);
     }
 
-    // [新增功能] 根據創建者 ID 獲取諧音梗列表
     public List<Pun> getPunsByCreatedBy(Integer createdBy) {
         return punRepository.findByCreatedBy(createdBy);
     }
 
-    // [新增功能] 獲取所有不重複的標籤
     public List<String> getAllDistinctTags() {
         return punRepository.findDistinctTags();
     }
 
+    //本次專案主要搜尋判斷
     public List<Pun> search(List<Integer> tagIds, String keyword) {
 
         boolean noTags = (tagIds == null || tagIds.isEmpty());
         boolean noKeyword = (keyword == null || keyword.isBlank());
 
-        if (noTags && noKeyword)
+        if (noTags && noKeyword) //輸入為空值所以回傳所有諧音梗
             return punRepository.findAll();
 
-        if (noTags)
+        if (noTags) //無標籤，以關鍵字搜尋，回傳有該關鍵字的諧音梗
             return punRepository.findByContentContainingIgnoreCase(keyword);
 
-        if (noKeyword)
+        if (noKeyword) //無關鍵字，以標籤搜尋，回傳被選取標籤的諧音梗
             return punRepository.findByTagIds(tagIds);
 
-        return punRepository.findByTagIdsAndKeyword(tagIds, keyword);
+        return punRepository.findByTagIdsAndKeyword(tagIds, keyword);//以標籤及關鍵字搜尋
     }
 }

@@ -32,13 +32,11 @@ public class PunController {
         return punService.search(tags, keyword);
     }
 
-    // [新增功能] 獲取特定使用者新增的諧音梗列表
     @GetMapping("/member/{memberId}")
     public List<Pun> getPunsByMemberId(@PathVariable Integer memberId) {
         return punService.getPunsByCreatedBy(memberId);
     }
 
-    // [新增功能] 獲取所有不重複的標籤列表
     @GetMapping("/tags")
     public List<String> getAllTags() {
         return punService.getAllDistinctTags();

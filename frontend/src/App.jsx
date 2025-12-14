@@ -6,7 +6,6 @@ import SignupPage from './pages/SignupPage';
 import DetailPage from './pages/DetailPage';
 import MyPunPage from './pages/MyPunPage';
 
-// 3. 創建 AuthContext
 export const AuthContext = createContext({
   isLoggedIn: false,
   memberId: null,
@@ -51,19 +50,15 @@ function App() {
       : <Navigate to="/login" replace />;
   };
 
-  // ✅ ✅ ✅ 關鍵在這個 return
+
   return (
     <AuthContext.Provider value={authContextValue}>
       <Router>
         <Routes>
-
-          {/* 根路由 */}
           <Route path="/" element={<RootRedirect />} />
-
           {/* 未登入 */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-
           {/* 已登入 */}
           <Route
             path="/search"
