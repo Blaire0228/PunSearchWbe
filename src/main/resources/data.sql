@@ -1,6 +1,6 @@
 -- 1. 新增使用者
 INSERT INTO member(member_name, password)
-VALUES ('admin', 'admin123');
+VALUES ('member', 'member123');
 
 
 -- 2. 新增標籤
